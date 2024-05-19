@@ -1,33 +1,33 @@
-#include <sys/types.h>
-#include <sys/event.h>
-#include <sys/time.h>
+#pragma once
+
 #include <arpa/inet.h>
+#include <fcntl.h>
+#include <sys/types.h>
 #include <unistd.h>
+
+#include <cstring>
 #include <iostream>
-#include <map>
-#include <vector>
+#include <string>
 
-class Socket{
-    
-    private:
-        Socket();
-        virtual ~Socket();
-        Socket(const Socket& rhs);
-        Socket& operator=(const Socket& rhs);
-        
-        int _listen_socket;
-        int _serv_socket;
-        struct sockaddr_in _serv_addr;
-        
-    public:
-        int bind_initalize() const;
-        int get_serversocket() const;
-        void disconnect_socket(int socket_fd, map<int, string>& sockets);
-        void exit_error(const string& str);
-        int listen_socket(int socket, int count);
-        int get_serversocket() const;
-        int get_listensocket() const;
+#include "ISocket.hpp"
+#include "KQueueEvent.hpp"
 
+class KQueueEvent;
+
+class Socket : public ISocket {
+ protected:
+  int _socket;
+  struct sockaddr_in _addr;
+  KQueueEvent _kq;
+
+ public:
+  Socket();
+  virtual ~Socket();
+  void bind_socket();
+  void listen_socket(int backlog);
+  void create_socket();
+  void set_addr(int port);
+  int accept_socket();
+  void exit_error(const std::string& str);
+  int get_socket() const { return (_socket); }
 };
-
-
