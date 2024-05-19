@@ -11,7 +11,7 @@
 
 class ISocket {
  public:
-  virtual ~ISocket();
+  virtual ~ISocket() = 0;
   virtual void create_socket() = 0;
   virtual void set_addr(int port) = 0;
   virtual void bind_socket() = 0;

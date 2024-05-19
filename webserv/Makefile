@@ -2,9 +2,7 @@ NAME		=	./TCP
 CXX			=	c++ 
 CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
 RM			=	rm -rf
-SRCS		=	IEvent.cpp \
-				ISocket.cpp \
-				KQueueEvent.cpp \
+SRCS		=	KQueueEvent.cpp \
 				ListenSocket.cpp \
 				ServerSocket.cpp \
 				Socket.cpp \

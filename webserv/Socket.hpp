@@ -7,17 +7,17 @@
 
 #include <cstring>
 #include <iostream>
+#include <map>
 #include <string>
 
 #include "ISocket.hpp"
 #include "KQueueEvent.hpp"
 
-class KQueueEvent;
-
 class Socket : public ISocket {
  protected:
   int _socket;
   struct sockaddr_in _addr;
+  std::map<int, std::string> clients;
   KQueueEvent _kq;
 
  public:
@@ -29,5 +29,8 @@ class Socket : public ISocket {
   void set_addr(int port);
   int accept_socket();
   void exit_error(const std::string& str);
-  int get_socket() const { return (_socket); }
+
+  void disconnect_client(int client_fd, std::map<int, std::string>& clients);
+  int get_socket() const;
+  std::map<int, std::string>& get_clients();  // 반환 타입 수정
 };

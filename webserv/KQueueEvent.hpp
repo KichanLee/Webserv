@@ -13,6 +13,9 @@
 #define TRUE 1
 #define FALSE 1
 #define MAX_EVENTS 1024
+
+class Socket;
+
 class KQueueEvent : public IEvent {
  private:
   int _kq;
@@ -31,7 +34,6 @@ class KQueueEvent : public IEvent {
    *    flags > event를 kqueue에 추가 , 수정, 제거하는 방법을 제어하는
    플레그
    * (EV_ADD, EV_ENABLE, EV_DISALBLE, EV_DELETE)
-
    */
 
  public:
