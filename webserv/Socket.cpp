@@ -1,11 +1,5 @@
 #include "Socket.hpp"
 
-#include <fcntl.h>
-#include <unistd.h>
-
-#include <cstring>
-#include <iostream>
-
 Socket::Socket() : _socket(0) { memset(&_addr, 0, sizeof(_addr)); }
 
 Socket::~Socket() {
@@ -39,16 +33,12 @@ void Socket::listen_socket(int backlog) {
 }
 
 int Socket::accept_socket() {
-  struct sockaddr_in client_addr;
-  socklen_t client_addr_size = sizeof(client_addr);
-  int client_socket =
-      accept(_socket, (struct sockaddr*)&client_addr, &client_addr_size);
+  int client_socket = accept(_socket, NULL, NULL);
   if (client_socket == -1) {
-    if (errno != EAGAIN && errno != EWOULDBLOCK) {
+    if (errno != EAGAIN && errno != EWOULDBLOCK)
       exit_error("accept() error: " + std::string(strerror(errno)));
-    }
   }
-  return client_socket;
+  return (client_socket);
 }
 
 void Socket::disconnect_client(int client_fd,
@@ -64,5 +54,3 @@ void Socket::exit_error(const std::string& str) {
 }
 
 int Socket::get_socket() const { return _socket; }
-
-std::map<int, std::string>& Socket::get_clients() { return clients; }

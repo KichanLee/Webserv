@@ -1,20 +1,25 @@
 #pragma once
 
-#include <fcntl.h>
 #include <sys/event.h>
 #include <sys/time.h>
+#include <sys/types.h>
 #include <unistd.h>
 
-#include <map>
+#include <vector>
 
 #include "IEvent.hpp"
+#include "ListenSocket.hpp"
 #include "Socket.hpp"
+
+class ListenSocket;
 
 #define TRUE 1
 #define FALSE 1
 #define MAX_EVENTS 1024
 
 class Socket;
+class ListenSocket;
+class ServerSocket;
 
 class KQueueEvent : public IEvent {
  private:
@@ -46,12 +51,14 @@ class KQueueEvent : public IEvent {
   int wait_for_events(struct kevent* event_list, int max_events,
                       const struct timespec* timeout);
 
-  void enroll_polling_events(Socket& socket);
-  void process_events(int event_cnt, Socket& socket);
+  void enroll_polling_events(ListenSocket& socket);
+  void process_events(int event_cnt, ListenSocket& socket);
 
-  void error_events(struct kevent* tmp, Socket& socket);
-  void read_events(struct kevent* tmp, Socket& socket);
-  void write_events(struct kevent* tmp, Socket& socket);
+  void error_events(struct kevent* tmp, ListenSocket& socket);
+  void read_events(struct kevent* tmp, ListenSocket& listen_socket);
+  void write_events(struct kevent* tmp, ListenSocket& ListenSocket);
+  // void timer_events(struct kevent* tmp, Socket& socket);
+  // void proc_events(struct kevent* tmp, Socket& socket);
 
   struct kevent* get_eventList();
   std::vector<struct kevent> get_changeList();

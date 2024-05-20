@@ -1,13 +1,6 @@
 #pragma once
 
-#include <arpa/inet.h>
-#include <sys/event.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <unistd.h>
-
 #include <iostream>
-#include <vector>
 
 class ISocket {
  public:
